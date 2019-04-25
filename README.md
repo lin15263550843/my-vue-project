@@ -1,5 +1,10 @@
 # my-vue-project
 
+## 启动并在浏览器打开项目
+```
+npm run dev
+```
+
 ## Project setup
 ```
 npm install
