@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import routes from './routers'
 import config from '../config'
+import {setTitle} from '../libs/util'
 
 Vue.use(Router);
 
@@ -23,8 +24,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(to => {
-    window.console.log('===>>>', to);
-
+    setTitle(to, router.app);
     window.scrollTo(0, 0)
 });
 export default router;
