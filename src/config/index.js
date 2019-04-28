@@ -25,6 +25,10 @@ export default {
      */
     homeName: 'home',
     /**
+     * @description 保存 cookies 的 key 名称
+     */
+    passwordName: 'password',
+    /**
      * @description 需要加载的插件
      */
     plugin: {

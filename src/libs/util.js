@@ -1,6 +1,7 @@
 import config from '@/config'
+import Cookies from 'js-cookie'
 
-const {title, useI18n} = config;
+const {title, useI18n, cookieExpires} = config;
 
 export const getRouteTitleHandled = (route) => {
     let router = {...route}
@@ -34,10 +35,33 @@ export const showTitle = (item, vm) => {
  * @param {Object} vm Vue实例
  */
 export const setTitle = (routeItem, vm) => {
-    window.console.log('routeItem===>>>', routeItem)
-    window.console.log('vm===>>>', vm)
+    // window.console.log('routeItem===>>>', routeItem)
+    // window.console.log('vm===>>>', vm)
     const handledRoute = getRouteTitleHandled(routeItem)
     const pageTitle = showTitle(handledRoute, vm)
     const resTitle = pageTitle ? `${title} - ${pageTitle}` : title
     window.document.title = resTitle
 }
+
+export const TOKEN_KEY = 'token';
+/**
+ * 保存用户 token
+ * @param key
+ * @param token
+ */
+export const setToken = (key, token) => {
+    Cookies.set(key, token, {expires: cookieExpires || 1});
+};
+/**
+ * 获取用户 token
+ * @param key
+ * @returns {*}
+ */
+export const getToken = (key) => {
+    const token = Cookies.get(key);
+    if (token) {
+        return token;
+    } else {
+        return false;
+    }
+};

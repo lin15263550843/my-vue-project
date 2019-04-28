@@ -24,6 +24,8 @@
 </template>
 
 <script>
+    import {setToken} from '../../libs/util'
+
     export default {
         name: "login",
         data() {
@@ -53,6 +55,10 @@
                         //     userName: this.formInline.user,
                         //     password: this.formInline.password
                         // })
+                        setToken(this.$config.passwordName, this.formInline.password)
+                        this.$router.push({
+                            name: this.$config.homeName
+                        })
 
                     } else {
                         this.$Message.error('表单验证失败!');
