@@ -1,110 +1,106 @@
 <template>
-    <div class="layout">
-        <Row type="flex">
-            <i-col span="5" class="layout-menu-left">
-                <Menu active-name="1-2" theme="dark" width="auto" :open-names="['1']">
-                    <div class="layout-logo-left"></div>
-                    <Submenu name="1">
-                        <template slot="title">
-                            <Icon type="ios-navigate"></Icon>
-                            导航一
-                        </template>
-                        <Menu-item name="1-1">选项 1</Menu-item>
-                        <Menu-item name="1-2">选项 2</Menu-item>
-                        <Menu-item name="1-3">选项 3</Menu-item>
-                    </Submenu>
-                    <Submenu name="2">
-                        <template slot="title">
-                            <Icon type="ios-keypad"></Icon>
-                            导航二
-                        </template>
-                        <Menu-item name="2-1">选项 1</Menu-item>
-                        <Menu-item name="2-2">选项 2</Menu-item>
-                    </Submenu>
-                    <Submenu name="3">
-                        <template slot="title">
-                            <Icon type="ios-analytics"></Icon>
-                            导航三
-                        </template>
-                        <Menu-item name="3-1">选项 1</Menu-item>
-                        <Menu-item name="3-2">选项 2</Menu-item>
-                    </Submenu>
-                </Menu>
-            </i-col>
-            <i-col span="19">
-                <div class="layout-header"></div>
-                <div class="layout-breadcrumb">
-                    <Breadcrumb>
-                        <Breadcrumb-item href="#">首页</Breadcrumb-item>
-                        <Breadcrumb-item href="#">应用中心</Breadcrumb-item>
-                        <Breadcrumb-item>某应用</Breadcrumb-item>
-                    </Breadcrumb>
+    <layout class="main">
+        <Sider hide-trigger collapsible :width="256" :collapsed-width="64" class="left-sider">
+            <side-menu accordion :menu-list="menuList" :collapsed="collapsed" @on-select="turnToPage">
+                <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
+                <div class="logo-con" @click="outLogin">
+                    <img v-show="!collapsed" src="../../assets/images/logo.jpg" key="max-logo"/>
+                    <img v-show="collapsed" src="../../assets/images/logo-min.jpg" key="min-logo"/>
                 </div>
-                <div class="layout-content">
-                    <div class="layout-content-main">内容区域</div>
-                </div>
-                <div class="layout-copy">
-                    2011-2016 &copy; TalkingData
-                </div>
-            </i-col>
-        </Row>
-    </div>
+            </side-menu>
+        </Sider>
+        <Layout>
+            <Header :style="{background: '#fff', boxShadow: '0 2px 3px 2px rgba(0,0,0,.1)'}"></Header>
+            <Content :style="{padding: '0 16px 16px'}">
+                <Breadcrumb :style="{margin: '16px 0'}">
+                    <BreadcrumbItem>Home</BreadcrumbItem>
+                    <BreadcrumbItem>Components</BreadcrumbItem>
+                    <BreadcrumbItem>Layout</BreadcrumbItem>
+                </Breadcrumb>
+                <Content class="content-wrapper">
+                    <keep-alive>
+                        <router-view/>
+                    </keep-alive>
+                </Content>
+                Vue.prototype
+            </Content>
+        </Layout>
+    </layout>
 </template>
-
 <script>
+    import sideMenu from './side-menu/side-menu.vue'
+    import {setToken, getToken} from '../../libs/util'
+
     export default {
-        name: "Main"
+        nane: 'Main',
+        components: {
+            sideMenu
+        },
+        data() {
+            return {
+                collapsed: false
+            }
+        },
+        computed: {
+            menuList() {
+                this.vLog('menuList', this.$store.getters.menuList);
+                return this.$store.getters.menuList
+            },
+            // tagNavList() {
+            //     return this.$store.state.app.tagNavList
+            // },
+            // cacheList() {
+            //     const list = ['ParentView', ...this.tagNavList.length ? this.tagNavList.filter(item => !(item.meta && item.meta.notCache)).map(item => item.name) : []]
+            //     return list
+            // },
+        },
+        methods: {
+            turnToPage(route) {
+                this.vLog('route', route)
+                let {name, params, query} = {}
+                if (typeof route === 'string') name = route
+                else {
+                    name = route.name
+                    params = route.params
+                    query = route.query
+                }
+                if (name.indexOf('isTurnByHref_') > -1) {
+                    window.open(name.split('_')[1])
+                    return
+                }
+                this.$router.push({
+                    name,
+                    params,
+                    query
+                })
+
+            },
+            outLogin() {
+                this.vLog('退出登录', getToken(this.$config.passwordName))
+                setToken(this.$config.passwordName, '')
+            }
+        }
     }
 </script>
-
-<style scoped>
-
-</style>
-
-<style scoped>
-    .layout {
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
-    }
-
-    .layout-breadcrumb {
-        padding: 10px 15px 0;
-    }
-
-    .layout-content {
-        min-height: 200px;
-        margin: 15px;
-        overflow: hidden;
-        background: #fff;
-        border-radius: 4px;
-    }
-
-    .layout-content-main {
-        padding: 10px;
-    }
-
-    .layout-copy {
-        text-align: center;
-        padding: 10px 0 20px;
-        color: #9ea7b4;
-    }
-
-    .layout-menu-left {
-        background: #464c5b;
-    }
-
-    .layout-header {
-        height: 60px;
-        background: #fff;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
-    }
-
-    .layout-logo-left {
-        width: 90%;
-        height: 30px;
-        background: #5b6270;
-        border-radius: 3px;
-        margin: 15px auto;
+<style lang="less">
+    .main {
+        height: 100%;
+        .left-sider {
+            overflow: hidden; /*为了隐藏滚动条*/
+            .ivu-layout-sider-children {
+                overflow-y: scroll;
+                margin-right: -18px;
+            }
+        }
+        .logo-con {
+            height: 64px;
+            padding: 10px;
+            img {
+                height: 44px;
+                width: auto;
+                display: block;
+                margin: 0 auto;
+            }
+        }
     }
 </style>

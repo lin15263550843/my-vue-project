@@ -5,6 +5,7 @@ import store from './store'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';    // 使用 CSS
 import config from '@/config'
+import {vLog} from '@/libs/tools'
 
 /**
  * @description 生产环境关掉提示
@@ -14,6 +15,13 @@ Vue.config.productionTip = false
  * @description 全局注册应用配置
  */
 Vue.prototype.$config = config
+
+
+/*
+自定义全局 console log
+ */
+Vue.prototype.vLog = (name, message) => window.console.log(name + '===>>>', message)
+
 
 Vue.use(iView);
 

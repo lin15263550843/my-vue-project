@@ -12,8 +12,8 @@ const router = new Router({mode: 'history', routes});
 
 router.beforeEach((to, from, next) => {
     const token = getToken(config.passwordName);
-    window.console.log('token===>>>', token);
-    window.console.log('to===>>>', to);
+    // window.console.log('token===>>>', token);
+    // window.console.log('to===>>>', to);
     if (!token && to.name !== LOGIN_PAGE_NAME) {
         next({name: LOGIN_PAGE_NAME});
     } else if (!token && to.name === LOGIN_PAGE_NAME) {
