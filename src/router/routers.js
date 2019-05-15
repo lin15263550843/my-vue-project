@@ -59,6 +59,9 @@ export default [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
+        // 路由级代码分裂
+        // 这会为此路由生成一个单独的块（约。[hash] .js）
+        // 访问路径时延迟加载。
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
     },
     {
@@ -88,5 +91,43 @@ export default [
                 component: () => import('@/views/About.vue')
             }
         ]
-    }
+    },
+    {
+        path: '/components',
+        name: 'components',
+        meta: {
+            icon: 'logo-buffer',
+            title: '组件',
+        },
+        component: Main,
+        children: [
+            // {
+            //     path: 'tree_select_page',
+            //     name: 'tree_select_page',
+            //     meta: {
+            //         icon: 'md-arrow-dropdown-circle',
+            //         title: '树状下拉选择器'
+            //     },
+            //     component: () => import('@/views/About.vue')
+            // },
+            {
+                path: 'count_to_page',
+                name: 'count_to_page',
+                meta: {
+                    icon: 'md-trending-up',
+                    title: '数字渐变'
+                },
+                component: () => import('@/views/components/count-to/count-to.vue')
+            },
+            {
+                path: 'drag_list_page',
+                name: 'drag_list_page',
+                meta: {
+                    icon: 'ios-infinite',
+                    title: '拖拽列表'
+                },
+                component: () => import('@/views/components/drag-list/drag-list.vue')
+            }
+        ]
+    },
 ]
