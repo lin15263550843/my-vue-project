@@ -30,10 +30,11 @@
 
 <script>
     import SideMenuItem from './side-menu-item.vue'
-    import {showTitle} from '@/libs/util'
+    import mixin from './mixin'
 
     export default {
         name: 'sideMenu',
+        mixins: [mixin],
         components: {SideMenuItem},
         props: {
             menuList: {
@@ -54,15 +55,6 @@
             handleSelect(name) {
                 this.$emit('on-select', name)
             },
-            showTitle(item) {
-                return showTitle(item, this)
-            },
-            showChildren(item) {
-                return item.children && (item.children.length > 1 || (item.meta && item.meta.showAlways))
-            },
-            getNameOrHref(item, children0) {
-                return item.href ? `isTurnByHref_${item.href}` : (children0 ? item.children[0].name : item.name)
-            }
         }
     }
 </script>

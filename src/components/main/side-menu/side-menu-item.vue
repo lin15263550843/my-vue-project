@@ -4,64 +4,35 @@
             <Icon :type="parentItem.icon || ''"></Icon>
             <span>{{showTitle(parentItem)}}</span>
         </template>
-        <!--<MenuItem name="1-1">Option 1</MenuItem>-->
-        <!--<MenuItem name="1-2">Option 2</MenuItem>-->
-        <!--<MenuItem name="1-3">Option 3</MenuItem>-->
+        <template v-for="item in children">
+            <template v-if="item.children && item.children.length===1">
+                <side-menu-item v-if="showChildren(item)" :key="`s-m-i-${item.name}`" :parent-item="item">
+                </side-menu-item>
+                <menu-item v-else :name="getNameOrHref(item, true)" :key="`menu-${item.children[0].name}`">
+                    <Icon :type="item.children[0].icon || ''"></Icon>
+                    <span>{{ showTitle(item.children[0]) }}</span>
+                </menu-item>
+            </template>
+            <template v-else>
+                <side-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item">
+                </side-menu-item>
+                <menu-item v-else :name="getNameOrHref(item)" :key="`menu-${item.name}`">
+                    <Icon :type="item.icon || ''"></Icon>
+                    <span>{{ showTitle(item) }}</span>
+                </menu-item>
+            </template>
+        </template>
     </Submenu>
-    <!--<Submenu name="2">-->
-    <!--<template slot="title">-->
-    <!--<Icon type="ios-keypad"></Icon>-->
-    <!--Item 2-->
-    <!--</template>-->
-    <!--<MenuItem name="2-1">Option 1</MenuItem>-->
-    <!--<MenuItem name="2-2">Option 2</MenuItem>-->
-    <!--</Submenu>-->
-    <!--<Submenu name="3">-->
-    <!--<template slot="title">-->
-    <!--<Icon type="ios-analytics"></Icon>-->
-    <!--Item 3-->
-    <!--</template>-->
-    <!--<MenuItem name="3-1">Option 1</MenuItem>-->
-    <!--<MenuItem name="3-2">Option 2</MenuItem>-->
-    <!--</Submenu>-->
 </template>
 
 <script>
-    import {showTitle} from '@/libs/util'
+    import mixin from './mixin'
+    import itemMixin from './item-mixin'
 
     export default {
         name: "SideMenuItem",
-        props: {
-            parentItem: {
-                type: Object,
-                default: () => {
-                }
-            },
-            theme: String,
-            iconSize: Number
-        },
-        computed: {
-            parentName() {
-                return this.parentItem.name
-            },
-            children() {
-                return this.parentItem.children
-            },
-            textColor() {
-                return this.theme === 'dark' ? '#fff' : '#495060'
-            }
-        },
-        methods: {
-            showTitle(item) {
-                return showTitle(item, this)
-            },
-            showChildren(item) {
-                return item.children && (item.children.length > 1 || (item.meta && item.meta.showAlways))
-            },
-            getNameOrHref(item, children0) {
-                return item.href ? `isTurnByHref_${item.href}` : (children0 ? item.children[0].name : item.name)
-            }
-        }
+        mixins: [mixin, itemMixin]
+
     }
 </script>
 

@@ -22,7 +22,6 @@
                         <router-view/>
                     </keep-alive>
                 </Content>
-                Vue.prototype
             </Content>
         </Layout>
     </layout>
