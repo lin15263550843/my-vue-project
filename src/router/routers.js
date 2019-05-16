@@ -127,7 +127,16 @@ export default [
                     title: '拖拽列表'
                 },
                 component: () => import('@/views/components/drag-list/drag-list.vue')
-            }
+            },
+            {
+                path: 'drag_drawer_page',
+                name: 'drag_drawer_page',
+                meta: {
+                    icon: 'md-list',
+                    title: '可拖拽抽屉'
+                },
+                component: () => import('@v/components/drag-drawer/drag-drawer.vue')
+            },
         ]
     },
 ]
