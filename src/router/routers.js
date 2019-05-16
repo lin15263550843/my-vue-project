@@ -101,15 +101,15 @@ export default [
         },
         component: Main,
         children: [
-            // {
-            //     path: 'tree_select_page',
-            //     name: 'tree_select_page',
-            //     meta: {
-            //         icon: 'md-arrow-dropdown-circle',
-            //         title: '树状下拉选择器'
-            //     },
-            //     component: () => import('@/views/About.vue')
-            // },
+            {
+                path: 'tree_select_page',
+                name: 'tree_select_page',
+                meta: {
+                    icon: 'md-arrow-dropdown-circle',
+                    title: '树状下拉选择器'
+                },
+                component: () => import('@/views/components/tree-select/tree-select.vue')
+            },
             {
                 path: 'count_to_page',
                 name: 'count_to_page',
