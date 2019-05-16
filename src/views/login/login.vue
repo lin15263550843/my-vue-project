@@ -4,14 +4,14 @@
             <Card shadow :bordered="false" title="欢迎登录">
                 <Form ref="formInline" :model="formInline" :rules="ruleInline" @keydown.enter.native="handleSubmit()">
                     <Form-item prop="user">
-                        <Input type="text" v-model="formInline.user" placeholder="请输入用户名">
-                        <Icon :size="16" type="ios-person" slot="prepend"></Icon>
-                        </Input>
+                        <i-input type="text" v-model="formInline.user" placeholder="请输入用户名">
+                            <Icon :size="16" type="ios-person" slot="prepend"></Icon>
+                        </i-input>
                     </Form-item>
                     <Form-item prop="password">
-                        <Input type="password" v-model="formInline.password" placeholder="请输入密码">
-                        <Icon size="14" type="md-lock" slot="prepend"></Icon>
-                        </Input>
+                        <i-input type="password" v-model="formInline.password" placeholder="请输入密码">
+                            <Icon size="14" type="md-lock" slot="prepend"></Icon>
+                        </i-input>
                     </Form-item>
                     <Form-item>
                         <Button type="primary" @click="handleSubmit" long>登录</Button>

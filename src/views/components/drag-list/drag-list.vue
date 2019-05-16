@@ -23,13 +23,13 @@
             </i-col>
             <i-col span="10" class="handle-log-con">
                 <h3>list1</h3>
-                <Card>
+                <Card class="list-boundary">
                     <pre class="list1-con">{{list1}}</pre>
                 </Card>
             </i-col>
             <i-col span="10" class="handle-log-con">
                 <h3>list2</h3>
-                <Card>
+                <Card class="list-boundary">
                     <pre class="list2-con">{{list2}}</pre>
                 </Card>
             </i-col>
@@ -140,6 +140,7 @@
                 padding: 10px 15px;
             }
             .ivu-card-body {
+                overflow: hidden;
                 padding: 0 10px;
                 p {
                     padding: 10px 0;
@@ -147,16 +148,21 @@
                     border-bottom: dashed #eee 1px;
                 }
             }
+            .list-boundary {
+                overflow: hidden;
+            }
         }
-        .log-c0n{
+        .log-c0n {
             height: 330px;
             overflow-y: scroll;
         }
-        .list1-con{
+        .list1-con {
+            margin-right: -30px;
             height: 300px;
             overflow-y: scroll;
         }
-        .list2-con{
+        .list2-con {
+            margin-right: -30px;
             height: 300px;
             overflow-y: scroll;
         }

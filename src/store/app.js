@@ -6,7 +6,7 @@ export default {
     state: {
     },
     getters: {
-        menuList: (state, getters, rootState) => getMenuByRouter(routers),
+        menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user),
         // menuList: () => routers
     },
     mutations: {},
