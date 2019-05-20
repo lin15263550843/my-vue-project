@@ -137,6 +137,15 @@ export default [
                 },
                 component: () => import('@v/components/drag-drawer/drag-drawer.vue')
             },
+            {
+                path: 'org_tree_page',
+                name: 'org_tree_page',
+                meta: {
+                    icon: 'ios-people',
+                    title: '组织结构树'
+                },
+                component: () => import('@v/components/org-tree/org-tree.vue')
+            },
         ]
     },
 ]

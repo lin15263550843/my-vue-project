@@ -11,8 +11,8 @@
         </Sider>
         <Layout>
             <Header :style="{background: '#fff', boxShadow: '0 2px 3px 2px rgba(0,0,0,.1)'}"></Header>
-            <Content :style="{padding: '0 16px 16px'}">
-                <Breadcrumb :style="{margin: '16px 0'}">
+            <Content class="main-content-con">
+                <Breadcrumb class="bared-con">
                     <BreadcrumbItem>Home</BreadcrumbItem>
                     <BreadcrumbItem>Components</BreadcrumbItem>
                     <BreadcrumbItem>Layout</BreadcrumbItem>
@@ -99,6 +99,27 @@
                 width: auto;
                 display: block;
                 margin: 0 auto;
+            }
+        }
+        .header-con {
+            background: #fff;
+            padding: 0 20px;
+            width: 100%;
+        }
+        .main-content-con {
+            /*height: ~"calc(100% - 60px)";*/
+            height: 100%;
+            overflow: hidden;
+            .bared-con{
+                height: 50px;
+                padding: 14px;
+                background: beige;
+            }
+            .content-wrapper {
+                padding: 15px;
+                /*height: 100%;*/
+                height: ~"calc(100% - 50px)";
+                overflow: auto;
             }
         }
     }
