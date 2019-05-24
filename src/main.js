@@ -8,6 +8,8 @@ import config from '@/config'
 import VOrgTree from 'v-org-tree'
 import 'v-org-tree/dist/v-org-tree.css'
 
+import {directive as clickOutside} from 'v-click-outside-x'
+
 // 实际打包时应该不引入mock
 /* eslint-disable */
 if (process.env.NODE_ENV !== 'production') require('@/mock')
@@ -30,6 +32,8 @@ Vue.prototype.$config = config
 自定义全局 console log
  */
 Vue.prototype.vLog = (name, message) => window.console.log(name + '===>>>', message ? message : name)
+
+Vue.directive('clickOutside', clickOutside)
 
 new Vue({
     el: '#app',
