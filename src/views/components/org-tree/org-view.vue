@@ -1,7 +1,8 @@
 <!--Created by dhc on 2019/5/17 15:19-->
 <template>
     <div class="org-tree-drag-wrapper"
-         @mousedown="mousedownView">
+         @mousedown="mousedownView"
+         @contextmenu="handleDocumentContextmenu">
         <div class="org-tree-wrapper" :style="orgTreeStyle">
             <v-org-tree
                     v-if="data"
@@ -143,9 +144,16 @@
                 off(document, 'mousemove', this.mousemoveView)
                 off(document, 'mouseup', this.mouseupView)
             },
+            handleDocumentContextmenu () {
+                this.canMove = false
+            },
         },
         watch: {},
-        mounted() {
+        mounted () {
+            on(document, 'contextmenu', this.handleDocumentContextmenu)
+        },
+        beforeDestroy () {
+            off(document, 'contextmenu', this.handleDocumentContextmenu)
         }
     }
 </script>
