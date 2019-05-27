@@ -1,6 +1,7 @@
 <!--Created by dhc on 2019/5/17 15:19-->
 <template>
-    <div class="org-tree-drag-wrapper">
+    <div class="org-tree-drag-wrapper"
+         @mousedown="mousedownView">
         <div class="org-tree-wrapper" :style="orgTreeStyle">
             <v-org-tree
                     v-if="data"
@@ -16,6 +17,8 @@
 </template>
 
 <script>
+    import { on, off } from '@/libs/tools'
+
     const menuList = [
         {
             key: 'edit',
@@ -120,6 +123,26 @@
             closeMenu() {
                 this.currentContextMenuId = ''
             },
+            mousedownView (event) {
+                this.canMove = true
+                this.initPageX = event.pageX
+                this.initPageY = event.pageY
+                this.oldMarginLeft = this.orgTreeOffsetLeft
+                this.oldMarginTop = this.orgTreeOffsetTop
+                on(document, 'mousemove', this.mousemoveView)
+                on(document, 'mouseup', this.mouseupView)
+            },
+            mousemoveView (event) {
+                if (!this.canMove) return
+                const { pageX, pageY } = event
+                this.orgTreeOffsetLeft = this.oldMarginLeft + pageX - this.initPageX
+                this.orgTreeOffsetTop = this.oldMarginTop + pageY - this.initPageY
+            },
+            mouseupView () {
+                this.canMove = false
+                off(document, 'mousemove', this.mousemoveView)
+                off(document, 'mouseup', this.mouseupView)
+            },
         },
         watch: {},
         mounted() {
@@ -142,7 +165,7 @@
         position: absolute;
         left: 50%;
         top: 50%;
-        transition: transform 1.2s ease-out;
+        transition: transform 0.2s ease-out;
         .org-tree-node-label {
             box-shadow: 0px 2px 12px 0px rgba(143, 154, 165, 0.4);
             border-radius: 4px;
