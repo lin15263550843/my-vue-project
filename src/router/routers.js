@@ -146,6 +146,15 @@ export default [
                 },
                 component: () => import('@v/components/org-tree/org-tree.vue')
             },
+            {
+                path: 'tables_page',
+                name: 'tables_page',
+                meta: {
+                    icon: 'md-grid',
+                    title: '多功能表格'
+                },
+                component: () => import('@v/components/tables/tables.vue')
+            },
         ]
     },
 ]
