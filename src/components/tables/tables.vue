@@ -39,6 +39,9 @@
                @on-row-dblclick="onRowDblclick"
                @on-expand="onExpand"
                ref="tablesMainddd">
+            <slot name="header" slot="header"></slot>
+            <slot name="footer" slot="footer"></slot>
+            <slot name="loading" slot="loading"></slot>
         </Table>
 
     </div>
@@ -47,6 +50,7 @@
 <script>
     import PageOption from "iview/src/components/page/options";
     import handleBts from './handle-btns'
+    import TablesEdit from './edit.vue'
 
     export default {
         name: "Tables",
@@ -147,9 +151,38 @@
         computed: {},
         methods: {
             suportEdit(item, index) {
-                // item.render = (h, params)=>{
-                //     return h()
-                // }
+                item.render = (h, params) => {
+                    return h(TablesEdit, {
+                        props: {
+                            value: this.insideTableData[params.index][params.column.key],
+                            edittingCellId: this.edittingCellId,
+                            params: params,
+                            editable: this.editable
+                        },
+                        on: {
+                            'input': val => {
+                                this.edittingText = val
+                            },
+                            'on-start-edit': (params) => {
+                                this.edittingCellId = `editting-${params.index}-${params.column.key}`
+                                this.vLog('edittingCellId', this.edittingCellId)
+                                // this.$emit('on-start-edit', params)
+                            },
+                            'on-cancel-edit': (params) => {
+                                this.edittingCellId = ''
+                                this.$emit('on-cancel-edit', params)
+                            },
+                            'on-save-edit': (params) => {
+                                this.vLog('params', params)
+
+                                this.value[params.row.initRowIndex][params.column.key] = this.edittingText
+                                // this.$emit('input', this.value)
+                                // this.$emit('on-save-edit', Object.assign(params, { value: this.edittingText }))
+                                this.edittingCellId = ''
+                            }
+                        }
+                    })
+                }
                 return item
             },
             surportHandle(item) {
