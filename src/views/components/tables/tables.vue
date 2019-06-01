@@ -2,7 +2,8 @@
 <template>
     <div>
         <Card>
-            <tables searchable editable search-place="top" v-model="tableData" :columns="columns"></tables>
+            <tables searchable editable stripe search-place="top" v-model="tableData" :columns="columns"
+                    @on-delete="handleDelete"/>
             <Button type="primary" class="tables-bottom">导出为 CSV 文件</Button>
         </Card>
     </div>
@@ -25,7 +26,7 @@
                     {
                         title: '操作',
                         key: 'handle',
-                        options: ['delete'],
+                        options: ['delete', 'test'],
                         button: [
                             (h, params, vm) => {
                                 return h('Poptip', {
@@ -50,7 +51,11 @@
             }
         },
         computed: {},
-        methods: {},
+        methods: {
+            handleDelete(params) {
+                this.vLog('delete', params)
+            },
+        },
         watch: {},
         mounted() {
             getTableData().then(res => {

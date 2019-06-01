@@ -14,8 +14,30 @@
                 <span>搜索</span>
             </Button>
         </div>
-        <Table :data="insideTableData"
-               :columns="insideColumns">
+        <Table :stripe="stripe"
+               :data="insideTableData"
+               :columns="insideColumns"
+               :border="border"
+               :show-header="showHeader"
+               :width="width"
+               :height="height"
+               :loading="loading"
+               :disabled-hover="disabledHover"
+               :highlight-row="highlightRow"
+               :row-class-name="rowClassName"
+               :size="size"
+               :no-data-text="noDataText"
+               :no-filtered-data-text="noFilteredDataText"
+               @on-current-change="onCurrentChange"
+               @on-select="onSelect"
+               @on-select-cancel="onSelectCancel"
+               @on-select-all="onSelectAll"
+               @on-selection-change="onSelectionChange"
+               @on-sort-change="onSortChange"
+               @on-filter-change="onFilterChange"
+               @on-row-click="onRowClick"
+               @on-row-dblclick="onRowDblclick"
+               @on-expand="onExpand">
 
         </Table>
 
@@ -62,6 +84,54 @@
             searchPlace: {
                 type: String,
                 default: 'top'
+            },
+            /**
+             * @description 是否显示斑马线
+             */
+            stripe: {
+                type: Boolean,
+                default: false
+            },
+            size: String,
+            width: {
+                type: [Number, String]
+            },
+            height: {
+                type: [Number, String]
+            },
+            border: {
+                type: Boolean,
+                default: false
+            },
+            showHeader: {
+                type: Boolean,
+                default: true
+            },
+            highlightRow: {
+                type: Boolean,
+                default: false
+            },
+            rowClassName: {
+                type: Function,
+                default() {
+                    return ''
+                }
+            },
+            context: {
+                type: Object
+            },
+            noDataText: {
+                type: String
+            },
+            noFilteredDataText: {
+                type: String
+            },
+            disabledHover: {
+                type: Boolean
+            },
+            loading: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
@@ -118,9 +188,39 @@
                     return res
                 })
             },
-            setDefaultSearchKey () {
+            setDefaultSearchKey() {
                 this.searchKey = this.columns[0].key !== 'handle' ? this.columns[0].key : (this.columns.length > 1 ? this.columns[1].key : '')
             },
+            onCurrentChange(currentRow, oldCurrentRow) {
+                this.$emit('on-current-change', currentRow, oldCurrentRow)
+            },
+            onSelect(selection, row) {
+                this.$emit('on-select', selection, row)
+            },
+            onSelectCancel(selection, row) {
+                this.$emit('on-select-cancel', selection, row)
+            },
+            onSelectAll(selection) {
+                this.$emit('on-select-all', selection)
+            },
+            onSelectionChange(selection) {
+                this.$emit('on-selection-change', selection)
+            },
+            onSortChange(column, key, order) {
+                this.$emit('on-sort-change', column, key, order)
+            },
+            onFilterChange(row) {
+                this.$emit('on-filter-change', row)
+            },
+            onRowClick(row, index) {
+                this.$emit('on-row-click', row, index)
+            },
+            onRowDblclick(row, index) {
+                this.$emit('on-row-dblclick', row, index)
+            },
+            onExpand(row, status) {
+                this.$emit('on-expand', row, status)
+            }
         },
         watch: {
             columns(columns) {
