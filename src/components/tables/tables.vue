@@ -37,8 +37,8 @@
                @on-filter-change="onFilterChange"
                @on-row-click="onRowClick"
                @on-row-dblclick="onRowDblclick"
-               @on-expand="onExpand">
-
+               @on-expand="onExpand"
+               ref="tablesMainddd">
         </Table>
 
     </div>
@@ -220,7 +220,11 @@
             },
             onExpand(row, status) {
                 this.$emit('on-expand', row, status)
-            }
+            },
+            exportCsv(params) {
+                this.vLog(0)
+                this.$refs.tablesMainddd.exportCsv(params)
+            },
         },
         watch: {
             columns(columns) {

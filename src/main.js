@@ -31,7 +31,13 @@ Vue.prototype.$config = config
 /*
 自定义全局 console log
  */
-Vue.prototype.vLog = (name, message) => window.console.log(name + '===>>>', message ? message : name)
+Vue.prototype.vLog = (name, message) => {
+    if (0 === name) {
+        return window.console.log('=======================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+    } else {
+        return window.console.log(name + '===>>>', message ? message : name)
+    }
+}
 
 Vue.directive('clickOutside', clickOutside)
 

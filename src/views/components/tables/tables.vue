@@ -2,9 +2,9 @@
 <template>
     <div>
         <Card>
-            <tables searchable editable stripe search-place="top" v-model="tableData" :columns="columns"
+            <tables ref="tables" searchable editable stripe search-place="top" v-model="tableData" :columns="columns"
                     @on-delete="handleDelete"/>
-            <Button type="primary" class="tables-bottom">导出为 CSV 文件</Button>
+            <Button @click="exportExcel" type="primary" class="tables-bottom">导出为 CSV 文件</Button>
         </Card>
     </div>
 </template>
@@ -55,11 +55,17 @@
             handleDelete(params) {
                 this.vLog('delete', params)
             },
+            exportExcel() {
+                this.$refs.tables.exportCsv({
+                    filename: `多功能表格导出_${new Date().getTime()}.csv`
+                })
+            }
         },
         watch: {},
         mounted() {
             getTableData().then(res => {
                 this.tableData = res.data
+                // console.log('=======================>>>>>>>>>>>>..')
             })
         }
     }
