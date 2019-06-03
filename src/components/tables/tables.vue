@@ -166,6 +166,7 @@
                             'on-start-edit': (params) => {
                                 this.edittingCellId = `editting-${params.index}-${params.column.key}`
                                 this.vLog('edittingCellId', this.edittingCellId)
+                                this.edittingText = ''
                                 // this.$emit('on-start-edit', params)
                             },
                             'on-cancel-edit': (params) => {
@@ -174,8 +175,9 @@
                             },
                             'on-save-edit': (params) => {
                                 this.vLog('params', params)
-
-                                this.value[params.row.initRowIndex][params.column.key] = this.edittingText
+                                if (this.edittingText) {
+                                    this.value[params.row.initRowIndex][params.column.key] = this.edittingText
+                                }
                                 // this.$emit('input', this.value)
                                 // this.$emit('on-save-edit', Object.assign(params, { value: this.edittingText }))
                                 this.edittingCellId = ''
