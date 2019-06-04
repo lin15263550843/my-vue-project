@@ -16,6 +16,7 @@ const errLog = msg => typeof msg !== 'object' ? console.log(chalk.red(`${msg}`))
 
 const {viewsTemplate, indexTemplate} = require('./template')
 const userInfo = os.userInfo()
+const routersPath = 'src/router/routers.js'
 const basePath = 'src'
 const viewsPath = 'views'
 const cptPath = 'components'
@@ -23,6 +24,7 @@ const dirType = process.argv[2]
 const inputPath = process.argv[3]
 const inputDir = path.parse(inputPath).dir
 const inputName = path.parse(inputPath).base
+const fileName = path.parse(inputPath).name
 const fileExt = path.parse(inputPath).ext
 
 const viewsDir = `${basePath}/${viewsPath}/${inputPath}`
@@ -42,6 +44,54 @@ let vtd = {
     name: getCamelCase(inputName),
     userName: userInfo.username,
     time: sd.format(new Date(), 'YYYY-MM-DD HH:mm:ss')
+}
+// 添加到路由文件
+const addRouter = rp => {
+
+    fs.readFile(rp, {flag: 'r+', encoding: 'utf8'}, function (err, data) {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        let name = ''
+        let importPath = ''
+        switch (dirType) {
+            case 'views':
+                name = inputName
+                importPath = `@v/${inputPath}/${inputName}`
+                break
+            case 'cpt':
+                name = inputName
+                importPath = `@v/${inputPath}/${inputName}`
+                break
+            case 'page':
+                name = fileName
+                importPath = `@/${inputPath}`
+                break
+            default:
+                break
+        }
+        let addInfo = `
+    {   
+        path: '${name}',
+        name: '${name}',
+        meta: {
+            title: '${name}',
+            hideInMenu: true
+        },
+        component: () => import('${importPath}')
+    }, /*Automatic generation of routing*/
+                  `
+        console.log(typeof data);
+        let addData = data.replace('/*Automatic generation of routing*/', addInfo)
+        fs.writeFile(routersPath, addData, {flag: 'r+', encoding: 'utf8'}, function (err) {
+            if (err) {
+                errLog(err);
+            } else {
+                sucLog('写入成功');
+            }
+        })
+    })
 }
 // 递归创建目录 同步方法（一般也就两三层，性能影响不大）
 const createDirectory = dirName => {
@@ -69,9 +119,10 @@ const createViewsFile = (dir, vueTemplate, indexTemplate) => {
                     fs.writeFileSync(indexName, indexTemplate, 'utf8')
                 }
                 sucLog(`成功创建：${vName}`)
+                addRouter(routersPath)
             } catch (e) {
                 errLog(`创建失败：${vName}`)
-                throw Error(e)
+                throw new Error(e)
             }
         }
     } else {
@@ -79,7 +130,7 @@ const createViewsFile = (dir, vueTemplate, indexTemplate) => {
     }
 }
 // 创建单文件
-const createAloneFile = (dir) => {
+const createAloneFile = dir => {
     let pName = `${dir}/${inputName}`
     let data = ''
     if ('.vue' === fileExt) {
@@ -95,24 +146,27 @@ const createAloneFile = (dir) => {
             try {
                 fs.writeFileSync(pName, data, 'utf8')
                 sucLog(`成功创建：${pName}`)
+                addRouter(routersPath)
             } catch (e) {
                 errLog(`创建失败：${pName}`)
-                throw Error(e)
+                throw new Error(e)
             }
         }
     } else {
         errLog(`目录创建失败：${dir}`)
     }
 }
-// 创建 vue 页面
-if ('views' === dirType) {
-    createViewsFile(viewsDir, viewsTemplate(vtd), null);
-}
-// 创建 vue 组件
-if ('cpt' === dirType) {
-    createViewsFile(cptDir, viewsTemplate(vtd), indexTemplate(vtd));
-}
-// 创建单文件
-if ('page' === dirType) {
-    createAloneFile(pageDir);
+
+switch (dirType) {
+    case 'views':   // 创建 vue 页面
+        createViewsFile(viewsDir, viewsTemplate(vtd), null);
+        break
+    case 'cpt':     // 创建 vue 组件
+        createViewsFile(cptDir, viewsTemplate(vtd), indexTemplate(vtd));
+        break
+    case 'page':    // 创建单文件
+        createAloneFile(pageDir);
+        break
+    default:
+        break
 }

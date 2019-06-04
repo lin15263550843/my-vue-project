@@ -156,5 +156,5 @@ export default [
                 component: () => import('@v/components/tables/tables.vue')
             },
         ]
-    },
+    },/*Automatic generation of routing*/
 ]
