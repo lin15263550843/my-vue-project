@@ -62,7 +62,7 @@ const addRouter = rp => {
                 break
             case 'cpt':
                 name = inputName
-                importPath = `@v/${inputPath}/${inputName}`
+                // importPath = `@c/${inputPath}/${inputName}`
                 break
             case 'page':
                 name = fileName
@@ -117,9 +117,10 @@ const createViewsFile = (dir, vueTemplate, indexTemplate) => {
                 fs.writeFileSync(vName, vueTemplate, 'utf8')
                 if (indexTemplate) {
                     fs.writeFileSync(indexName, indexTemplate, 'utf8')
+                } else {
+                    addRouter(routersPath)
                 }
                 sucLog(`成功创建：${vName}`)
-                addRouter(routersPath)
             } catch (e) {
                 errLog(`创建失败：${vName}`)
                 throw new Error(e)
@@ -146,7 +147,7 @@ const createAloneFile = dir => {
             try {
                 fs.writeFileSync(pName, data, 'utf8')
                 sucLog(`成功创建：${pName}`)
-                addRouter(routersPath)
+                if ('.vue' === fileExt) addRouter(routersPath)
             } catch (e) {
                 errLog(`创建失败：${pName}`)
                 throw new Error(e)
