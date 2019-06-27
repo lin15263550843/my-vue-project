@@ -155,6 +155,16 @@ export default [
                 },
                 component: () => import('@v/components/tables/tables.vue')
             },
+            {
+                path: 'icons_page',
+                name: 'icons_page',
+                meta: {
+                    icon: '_bear',
+                    title: '自定义图标'
+                },
+                component: () => import('@v/components/icons/icons.vue')
+            },
         ]
-    },/*Automatic generation of routing*/
+    }, /*Automatic generation of routing*/
+
 ]

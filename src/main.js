@@ -7,6 +7,7 @@ import 'iview/dist/styles/iview.css';    // 使用 CSS
 import config from '@/config'
 import VOrgTree from 'v-org-tree'
 import 'v-org-tree/dist/v-org-tree.css'
+import '@assets/icons/iconfont.css'
 
 import {directive as clickOutside} from 'v-click-outside-x'
 
