@@ -4,13 +4,13 @@
             <side-menu accordion :menu-list="menuList" :collapsed="collapsed" @on-select="turnToPage">
                 <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
                 <div class="logo-con" @click="outLogin">
-                    <img v-show="!collapsed" src="../../assets/images/logo.jpg" key="max-logo"/>
+                    <img v-show="!collapsed" :src="logoImage" key="max-logo"/>
                     <img v-show="collapsed" src="../../assets/images/logo-min.jpg" key="min-logo"/>
                 </div>
             </side-menu>
         </Sider>
         <Layout>
-            <Header :style="{background: '#fff', boxShadow: '0 2px 3px 2px rgba(0,0,0,.1)'}"></Header>
+                <Header :style="{background: '#fff', boxShadow: '0 2px 3px 2px rgba(0,0,0,.1)'}"></Header>
             <Content class="main-content-con">
                 <Breadcrumb class="bared-con">
                     <BreadcrumbItem>Home</BreadcrumbItem>
@@ -37,7 +37,8 @@
         },
         data() {
             return {
-                collapsed: false
+                collapsed: false,
+                logoImage: require('../../assets/images/logo.jpg')
             }
         },
         computed: {

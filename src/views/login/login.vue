@@ -18,6 +18,18 @@
                     </Form-item>
                 </Form>
                 <p class="login-tip">输入任意用户名和密码即可</p>
+                <!--                <div>-->
+                <!--                    <dl class="search1_hot2">-->
+                <!--                        <dt class="search1_hot3">-->
+                <!--                            <input @focus="onFocus()" @blur="onBlur()" type="text" placeholder="请输入用户名"/>-->
+                <!--                        </dt>-->
+                <!--                        <dd v-if="singer">-->
+                <!--                            <div>哈哈哈哈哈</div>-->
+                <!--                            <div>哈哈哈哈哈</div>-->
+                <!--                            <div>哈哈哈哈哈</div>-->
+                <!--                        </dd>-->
+                <!--                    </dl>-->
+                <!--                </div>-->
             </Card>
         </div>
     </div>
